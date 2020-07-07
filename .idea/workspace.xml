@@ -20,13 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ef4d5e4-3354-4a1e-8203-885bfe9c5eea" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/add.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/search.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/mytest.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mytest.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/add.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/search.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,7 +151,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1593675803758</updated>
-      <workItem from="1594110660996" duration="5388000" />
+      <workItem from="1594110660996" duration="5549000" />
     </task>
     <servers />
   </component>

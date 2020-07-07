@@ -7,13 +7,12 @@
 </head>
 <body>
 <form action="" method="">
-    <input type="text" name="start_id" id="start_id">
-    <input type="text" name="end_id" id="end_id">
+    start_id:<input type="text" name="start_id" id="start_id">
+    end_id:<input type="text" name="end_id" id="end_id">
     <button type="button" id="sub">查看</button>
 </form>
     <script>
         $('#sub').on('click',function () {
-            console.log(111)
             var start_id = $('#start_id').val()
             var end_id = $('#end_id').val()
             $.post('/show', {start_id: start_id, end_id: end_id}, function (re) {

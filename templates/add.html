@@ -13,11 +13,10 @@
 </form>
     <script>
         $('#sub').on('click',function () {
-            console.log(111)
             var client_number = $('#client_number').val()
             var client_score = $('#client_score').val()
             $.post('/upload', {client_number: client_number, client_score: client_score}, function (re) {
-                console.log(re)
+                alert(re.message)
             }, 'json');
         })
 
