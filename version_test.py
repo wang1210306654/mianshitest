@@ -1,24 +1,24 @@
 def compare_version(version1, version2):
-    version1_list = list(map(lambda x: int(x), version1.split(".")))
-    version2_list = list(map(lambda x: int(x), version2.split(".")))
-
-    if version1_list == version2_list:
-        return 0
-
-    min_length = min(len(version1_list), len(version2_list))
-    for i in range(min_length):
-
-        if version1_list[i] > version2_list[i]:
-            return 1
-
-
-        elif version1_list[i] < version2_list[i]:
+    list1 = str(version1).split(".")
+    list2 = str(version2).split(".")
+    print(list1)
+    print(list2)
+    # 循环次数为短的列表的len
+    for i in range(len(list1)) if len(list1) < len(list2) else range(len(list2)):
+        if int(list1[i]) == int(list2[i]):
+            pass
+        elif int(list1[i]) < int(list2[i]):
             return -1
-        if i == min_length - 1 and version1_list[0:min_length - 1] == version2_list[0:min_length - 1]:
-            if len(version1_list) < len(version2_list):
-                return -1
-            if len(version1_list) > len(version2_list):
-                return 1
+        else:
+            return 1
+    # 循环结束，哪个列表长哪个版本号高
+    if len(list1) == len(list2):
+        return 0
+    elif len(list1) < len(list2):
+        return -1
+    else:
+        return 1
+
 
 
 if __name__ == '__main__':

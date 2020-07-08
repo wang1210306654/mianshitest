@@ -39,7 +39,8 @@
                 var source = re.source
                 var html = '<li>排名:客户端:分数</li>'
                 $.each(data,function (k,v) {
-                    html += '<li>' + k + ' : ' + v.name + ' : ' + v.val + '</li>'
+                    k = k + 1
+                    html += '<li>' + k  + ' : ' + v.name + ' : ' + v.val + '</li>'
                 })
                 html += '<li>' + rank + ' : ' + username + ' : ' + source + '</li>'
                 $('#show').html(html)
