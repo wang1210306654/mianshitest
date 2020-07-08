@@ -1,69 +1,53 @@
-from flask import Flask, request ,render_template
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, request ,render_template ,make_response ,jsonify
 import json, os
+import redis
+
+
 class Config:
-    SECRET_KEY = "wfsdgagasdfsafd"
-    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(os.path.dirname(os.path.abspath(__file__)), "mydata.db")
+    MONGODB_SETTINGS = {
+        'db': 'test',
+        'host': '49.232.197.106',
+        'port': 27017,
+    }
+
 
 
 app = Flask(__name__)
-db = SQLAlchemy(app)
 app.config.from_object(Config)
 
-class Client_Model(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    client_number = db.Column(db.String(20), unique=True)
-    client_score = db.Column(db.Integer, default=0)
+# r = redis.StrictRedis(host="49.232.197.106", port=6379, db=0)
+pool = redis.ConnectionPool(decode_responses=True, host="49.232.197.106", port=6379, db=3)
+r = redis.Redis(connection_pool=pool)
+
 
 @app.route("/add/")
 def add():
     return render_template('add.html')
 
-
-
-@app.route("/search/")
-def search():
-    return render_template('search.html')
-
+@app.route("/upload/", methods=["POST"])
+def upload():
+    client_s = int(request.values.get('client_score', 0))
+    client_n = request.values.get('client_number', '')
+    ok = r.zadd(name='ranking',mapping={client_n:client_s})
+    if ok ==1:
+        resp = make_response(jsonify({"message": "添加成功", "code": 200}))
+        resp.set_cookie('username',client_n)
+    elif ok == 0:
+        resp = make_response(jsonify({"message": "更新成功", "code": 200}))
+        resp.set_cookie('username',client_n)
+    return resp
 
 @app.route("/show/", methods=["POST"])
 def show():
-    # request_data = json.loads(request.get_data().decode("utf-8"))
-    # start_id = request_data.get('start_id')
-    # end_id = request_data.get('end_id')
-    start_id = request.values.get('start_id', '')
-    end_id = request.values.get('end_id', '')
-    client_model = Client_Model.query.order_by(Client_Model.client_score.desc()).offset(start_id).limit(end_id).all()
-    data = {}
-    for i in client_model:
-        subdata = {}
-        subdata[client_model.client_number] = client_model.client_score
-        data[i] = subdata
-    jsondata = json.dumps({"message": "success", "code": data})
+    username = request.cookies.get('username')
+    start_id = int(request.values.get('start_id', ''))
+    end_id = int(request.values.get('end_id', ''))
+    data = r.zrange(name='ranking',start=start_id-1,end=end_id-1,withscores=True,score_cast_func=int,desc=True)
+    data = [{'name':n,'val':v} for n,v in data]
+    rank = r.zrevrank('ranking',username)
+    source = r.zscore('ranking',username)
+    jsondata = json.dumps({"message": "查询成功", "data": data,'rank':rank,'username':username,'source':int(source)})
     return jsondata
-
-
-@app.route("/upload/", methods=["POST"])
-def upload():
-    # request_data = json.loads(request.get_data().decode("utf-8"))
-    # client_number = request_data.get("client_number")
-    # client_score = request_data.get("client_score")
-    client_s = int(request.values.get('client_score', 0))
-    client_n = request.values.get('client_number', '')
-    client_model = Client_Model.query.filter_by(client_number=client_n).first()
-    if client_model:
-        client_model.client_score = client_s
-    else:
-        client_model = Client_Model(client_number=client_n, client_score=client_s)
-    print(client_model)
-
-    db.session.add(client_model)
-    db.session.commit()
-    jsondata = json.dumps({"message": "success", "code": 200})
-    return jsondata
-
 
 if __name__ == '__main__':
     app.run()
