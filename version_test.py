@@ -1,8 +1,6 @@
 def compare_version(version1, version2):
     list1 = str(version1).split(".")
     list2 = str(version2).split(".")
-    print(list1)
-    print(list2)
     # 循环次数为短的列表的len
     for i in range(len(list1)) if len(list1) < len(list2) else range(len(list2)):
         if int(list1[i]) == int(list2[i]):
