@@ -4,8 +4,8 @@ import redis
 
 app = Flask(__name__)
 
-# r = redis.StrictRedis(host="49.232.197.106", port=6379, db=0)
-pool = redis.ConnectionPool(decode_responses=True, host="49.232.197.106", port=6379, db=3)
+# r = redis.StrictRedis(host="**********", port=6379, db=0)
+pool = redis.ConnectionPool(decode_responses=True, host="*******", port=6379, db=3)
 r = redis.Redis(connection_pool=pool)
 
 
